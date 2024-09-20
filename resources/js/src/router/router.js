@@ -24,7 +24,7 @@ const routes = [
     },
     {
         path: '/login',
-        component: () => import('../views/Auth/Login.vue'),
+        component: () => import('../views/auth/Login.vue'),
         meta: { title: 'Masuk' }  // Title halaman Layanan
     },
 ];

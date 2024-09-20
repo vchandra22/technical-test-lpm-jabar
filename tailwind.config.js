@@ -8,7 +8,11 @@ export default {
         'node_modules/flowbite/**/*.{js,jsx,ts,tsx}'
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ['PT Sans', 'sans-serif'], // Set Raleway as the default font
+            },
+        },
     },
     plugins: [
         require('flowbite/plugin')
