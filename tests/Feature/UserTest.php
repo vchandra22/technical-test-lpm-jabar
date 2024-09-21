@@ -2,9 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -12,14 +9,14 @@ class UserTest extends TestCase
     public function testRegisterSuccess()
     {
         $this->post('/api/users', [
-            'name' => 'Vincent Chandra',
-            'email' => 'vincentchaandra@gmail.com',
-            'password' => 'password'
+            'name' => 'John Doe',
+            'email' => 'test@example.com',
+            'password' => 'password',
         ])->assertStatus(201)
             ->assertJson([
                 "data" => [
-                    'name' => 'Vincent Chandra',
-                    'email' => 'vincentchaandra@gmail.com'
+                    'name' => 'John Doe',
+                    'email' => 'test@example.com',
                 ]
             ]);
     }
@@ -42,6 +39,21 @@ class UserTest extends TestCase
                     'password' => [
                         'The password field is required.'
                     ],
+                ]
+            ]);
+    }
+
+    public function testRegisterEmailAlreadyExists()
+    {
+        $this->testRegisterSuccess();
+        $this->post('api/users', [
+            'name' => 'John Doe',
+            'email' => 'test@example.com',
+            'password' => 'password'
+        ])->assertStatus(400)
+            ->assertJson([
+                "errors" => [
+                    'email' => []
                 ]
             ]);
     }

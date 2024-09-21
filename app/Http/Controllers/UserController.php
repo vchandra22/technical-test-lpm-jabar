@@ -16,11 +16,14 @@ class UserController extends Controller
         $data = $request->validated();
 
         if (User::where('email', $data['email'])->exists()) {
-            return response()->json([
+            // ada dalam database
+            throw new HttpResponseException(response([
                 "errors" => [
-                    "email" => ["email already registered"]
+                    "email" => [
+                        "email already registered"
+                    ]
                 ]
-            ], 400);
+            ], 400));
         }
 
         $user = new User($data);
