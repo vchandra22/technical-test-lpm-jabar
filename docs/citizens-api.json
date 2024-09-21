@@ -1,0 +1,556 @@
+{
+    "openapi":"3.0.3",
+    "info": {
+        "title":"Citizens API",
+        "version":"1.0"
+    },
+    "servers": [
+        {"url":"http://localhost:8081"}
+    ],
+    "paths": {
+        "/api/citizens" : {
+            "post" : {
+                "description": "Create new citizens",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"                    }
+                ],
+                "requestBody" : {
+                    "description": "Create new citizens",
+                    "content": {
+                        "application/json" : {
+                            "schema" : {
+                                "type": "object",
+                                "properties": {
+                                    "nama" : {
+                                        "type": "string"
+                                    },
+                                    "nik" : {
+                                        "type": "number"
+                                    },
+                                    "no_kk" : {
+                                        "type": "number"
+                                    },
+                                    "foto_ktp" : {
+                                        "type": "string"
+                                    },
+                                    "foto_kk" : {
+                                        "type": "string"
+                                    },
+                                    "umur" : {
+                                        "type": "number"
+                                    },
+                                    "jenis_kelamin" : {
+                                        "type": "string"
+                                    },
+                                    "provinsi" : {
+                                        "type": "string"
+                                    },
+                                    "kab_kota" : {
+                                        "type": "string"
+                                    },
+                                    "kecamatan" : {
+                                        "type": "string"
+                                    },
+                                    "kelurahan" : {
+                                        "type": "string"
+                                    },
+                                    "alamat" : {
+                                        "type": "string"
+                                    },
+                                    "rt" : {
+                                        "type": "string"
+                                    },
+                                    "rw" : {
+                                        "type": "string"
+                                    },
+                                    "b_penghasilan" : {
+                                        "type": "number"
+                                    },
+                                    "s_penghasilan" : {
+                                        "type": "number"
+                                    },
+                                    "alasan" : {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200" : {
+                        "description": "Success create citizens",
+                        "content": {
+                            "application/json" : {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{
+                                                    "type": "number"
+                                                },
+                                                "nama" : {
+                                                    "type": "string"
+                                                },
+                                                "nik" : {
+                                                    "type": "number"
+                                                },
+                                                "no_kk" : {
+                                                    "type": "number"
+                                                },
+                                                "foto_ktp" : {
+                                                    "type": "string"
+                                                },
+                                                "foto_kk" : {
+                                                    "type": "string"
+                                                },
+                                                "umur" : {
+                                                    "type": "number"
+                                                },
+                                                "jenis_kelamin" : {
+                                                    "type": "string"
+                                                },
+                                                "provinsi" : {
+                                                    "type": "string"
+                                                },
+                                                "kab_kota" : {
+                                                    "type": "string"
+                                                },
+                                                "kecamatan" : {
+                                                    "type": "string"
+                                                },
+                                                "kelurahan" : {
+                                                    "type": "string"
+                                                },
+                                                "alamat" : {
+                                                    "type": "string"
+                                                },
+                                                "rt" : {
+                                                    "type": "string"
+                                                },
+                                                "rw" : {
+                                                    "type": "string"
+                                                },
+                                                "b_penghasilan" : {
+                                                    "type": "number"
+                                                },
+                                                "s_penghasilan" : {
+                                                    "type": "number"
+                                                },
+                                                "alasan" : {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get" :{
+                "description": "Search citizens",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name" : "nama",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "nik",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "no_kk",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "umur",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "provinsi",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "size",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "page",
+                        "in" : "query"
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "Success search citizens",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id" :{
+                                                    "type": "number"
+                                                    },
+                                                    "nama" : {
+                                                        "type": "string"
+                                                    },
+                                                    "nik" : {
+                                                        "type": "number"
+                                                    },
+                                                    "no_kk" : {
+                                                        "type": "number"
+                                                    },
+                                                    "foto_ktp" : {
+                                                        "type": "string"
+                                                    },
+                                                    "foto_kk" : {
+                                                        "type": "string"
+                                                    },
+                                                    "umur" : {
+                                                        "type": "number"
+                                                    },
+                                                    "jenis_kelamin" : {
+                                                        "type": "string"
+                                                    },
+                                                    "provinsi" : {
+                                                        "type": "string"
+                                                    },
+                                                    "kab_kota" : {
+                                                        "type": "string"
+                                                    },
+                                                    "kecamatan" : {
+                                                        "type": "string"
+                                                    },
+                                                    "kelurahan" : {
+                                                        "type": "string"
+                                                    },
+                                                    "alamat" : {
+                                                        "type": "string"
+                                                    },
+                                                    "rt" : {
+                                                        "type": "string"
+                                                    },
+                                                    "rw" : {
+                                                        "type": "string"
+                                                    },
+                                                    "b_penghasilan" : {
+                                                        "type": "number"
+                                                    },
+                                                    "s_penghasilan" : {
+                                                        "type": "number"
+                                                    },
+                                                    "alasan" : {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        },
+                                        "meta" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api/citizens/{id}" : {
+            "put" : {
+                "description" : "Update citizens",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name" : "id",
+                        "in" : "path"
+                    }
+                ],
+                "requestBody" : {
+                    "description": "Update citizens",
+                    "content": {
+                        "application/json" : {
+                            "schema" : {
+                                "type": "object",
+                                "properties": {
+                                    "nama" : {
+                                        "type": "string"
+                                    },
+                                    "nik" : {
+                                        "type": "number"
+                                    },
+                                    "no_kk" : {
+                                        "type": "number"
+                                    },
+                                    "foto_ktp" : {
+                                        "type": "string"
+                                    },
+                                    "foto_kk" : {
+                                        "type": "string"
+                                    },
+                                    "umur" : {
+                                        "type": "number"
+                                    },
+                                    "jenis_kelamin" : {
+                                        "type": "string"
+                                    },
+                                    "provinsi" : {
+                                        "type": "string"
+                                    },
+                                    "kab_kota" : {
+                                        "type": "string"
+                                    },
+                                    "kecamatan" : {
+                                        "type": "string"
+                                    },
+                                    "kelurahan" : {
+                                        "type": "string"
+                                    },
+                                    "alamat" : {
+                                        "type": "string"
+                                    },
+                                    "rt" : {
+                                        "type": "string"
+                                    },
+                                    "rw" : {
+                                        "type": "string"
+                                    },
+                                    "b_penghasilan" : {
+                                        "type": "number"
+                                    },
+                                    "s_penghasilan" : {
+                                        "type": "number"
+                                    },
+                                    "alasan" : {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200" : {
+                        "description": "Success update citizens",
+                        "content": {
+                            "application/json" : {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{
+                                                    "type": "number"
+                                                },
+                                                "nama" : {
+                                                    "type": "string"
+                                                },
+                                                "nik" : {
+                                                    "type": "number"
+                                                },
+                                                "no_kk" : {
+                                                    "type": "number"
+                                                },
+                                                "foto_ktp" : {
+                                                    "type": "string"
+                                                },
+                                                "foto_kk" : {
+                                                    "type": "string"
+                                                },
+                                                "umur" : {
+                                                    "type": "number"
+                                                },
+                                                "jenis_kelamin" : {
+                                                    "type": "string"
+                                                },
+                                                "provinsi" : {
+                                                    "type": "string"
+                                                },
+                                                "kab_kota" : {
+                                                    "type": "string"
+                                                },
+                                                "kecamatan" : {
+                                                    "type": "string"
+                                                },
+                                                "kelurahan" : {
+                                                    "type": "string"
+                                                },
+                                                "alamat" : {
+                                                    "type": "string"
+                                                },
+                                                "rt" : {
+                                                    "type": "string"
+                                                },
+                                                "rw" : {
+                                                    "type": "string"
+                                                },
+                                                "b_penghasilan" : {
+                                                    "type": "number"
+                                                },
+                                                "s_penghasilan" : {
+                                                    "type": "number"
+                                                },
+                                                "alasan" : {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get" : {
+                "description" : "Get citizens",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name" : "id",
+                        "in" : "path"
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "Success get citizens",
+                        "content": {
+                            "application/json" : {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{
+                                                    "type": "number"
+                                                },
+                                                "nama" : {
+                                                    "type": "string"
+                                                },
+                                                "nik" : {
+                                                    "type": "number"
+                                                },
+                                                "no_kk" : {
+                                                    "type": "number"
+                                                },
+                                                "foto_ktp" : {
+                                                    "type": "string"
+                                                },
+                                                "foto_kk" : {
+                                                    "type": "string"
+                                                },
+                                                "umur" : {
+                                                    "type": "number"
+                                                },
+                                                "jenis_kelamin" : {
+                                                    "type": "string"
+                                                },
+                                                "provinsi" : {
+                                                    "type": "string"
+                                                },
+                                                "kab_kota" : {
+                                                    "type": "string"
+                                                },
+                                                "kecamatan" : {
+                                                    "type": "string"
+                                                },
+                                                "kelurahan" : {
+                                                    "type": "string"
+                                                },
+                                                "alamat" : {
+                                                    "type": "string"
+                                                },
+                                                "rt" : {
+                                                    "type": "string"
+                                                },
+                                                "rw" : {
+                                                    "type": "string"
+                                                },
+                                                "b_penghasilan" : {
+                                                    "type": "number"
+                                                },
+                                                "s_penghasilan" : {
+                                                    "type": "number"
+                                                },
+                                                "alasan" : {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete" : {
+                "description" : "Remove citizens",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name" : "id",
+                        "in" : "path"
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "Success dekete citizens",
+                        "content": {
+                            "application/json" : {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "boolean"
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
