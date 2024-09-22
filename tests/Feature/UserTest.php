@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Database\Seeders\UserSeeder;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -54,6 +56,57 @@ class UserTest extends TestCase
             ->assertJson([
                 "errors" => [
                     'email' => []
+                ]
+            ]);
+    }
+
+    public function testLoginSuccess()
+    {
+        $this->seed([UserSeeder::class]);
+
+        $this->post('/api/users/login', [
+            'email' => 'test@example.com',
+            'password' => 'password'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'name' => 'John Doe',
+                    'email' => 'test@example.com'
+                ]
+            ]);
+
+        $user = User::where('email', 'test@example.com')->first();
+        self::assertNotNull($user->token);
+    }
+
+    public function testLoginEmailNotFound()
+    {
+        $this->post('/api/users/login', [
+            'email' => 'test@example.com',
+            'password' => 'password'
+        ])->assertStatus(401)
+            ->assertJson([
+                'errors' => [
+                    "message" => [
+                        "email or password wrong"
+                    ]
+                ]
+            ]);
+    }
+
+    public function testLoginPasswordWrong()
+    {
+        $this->seed([UserSeeder::class]);
+
+        $this->post('/api/users/login', [
+            'email' => 'test@example.com',
+            'password' => 'wrongpassword'
+        ])->assertStatus(401)
+            ->assertJson([
+                'errors' => [
+                    "message" => [
+                        "email or password wrong"
+                    ]
                 ]
             ]);
     }
