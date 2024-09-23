@@ -1,32 +1,33 @@
-import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from '../stores/auth'; // Import your auth store
 import Beranda from "../views/Beranda.vue";
 
 const routes = [
     {
         path: '/',
         component: Beranda,
-        meta: { title: 'Beranda' }  // Title halaman Beranda
+        meta: { title: 'Beranda' }
     },
     {
         path: '/layanan',
         component: () => import('../views/Layanan.vue'),
-        meta: { title: 'Layanan' }  // Title halaman Layanan
+        meta: { title: 'Layanan' }
     },
     {
         path: '/kontak-darurat',
         component: () => import('../views/Kontak.vue'),
-        meta: { title: 'Kontak Darurat' }  // Title halaman Kontak Darurat
+        meta: { title: 'Kontak Darurat' }
     },
     {
         path: '/laporan-kegiatan',
         component: () => import('../views/Laporan.vue'),
-        meta: { title: 'Laporan Kegiatan' }  // Title halaman Laporan
+        meta: { title: 'Laporan Kegiatan' }
     },
     {
         path: '/login',
         component: () => import('../views/auth/Login.vue'),
         meta: {
-            title: 'Masuk', // Title halaman Login
+            title: 'Masuk',
             requiresAuth: false
         }
     },
@@ -34,32 +35,33 @@ const routes = [
         path: '/dashboard',
         component: () => import('../views/backend/Dashboard.vue'),
         meta: {
-            title: 'Dashboard', // Title halaman Dashboard
+            title: 'Dashboard',
             requiresAuth: true
         }
     },
 ];
 
-    const router = createRouter({
-        history: createWebHistory(),
-        routes,
-    });
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+});
 
-    // Route guard untuk mengecek autentikasi sebelum mengakses halaman tertentu
-    router.beforeEach((to, from, next) => {
-        document.title = to.meta.title;  // Mengubah title halaman
+// Route guard for authentication and title handling
+router.beforeEach((to, from, next) => {
+    // Set document title from meta property
+    document.title = to.meta.title || 'Default Title';
 
-        const isAuthenticated = !!localStorage.getItem("token");  // Cek apakah token ada
+    const authStore = useAuthStore(); // Access the auth store
+    const isAuthenticated = authStore.isLoggedIn; // Get the authentication state from the store
 
-        if (to.meta.requiresAuth && !isAuthenticated) {
-            // Jika halaman butuh autentikasi dan user belum login
-            next('/login');  // Redirect ke halaman login
-        } else if (to.path === '/login' && isAuthenticated) {
-            // Jika user sudah login dan mencoba ke halaman login, redirect ke dashboard
-            next('/dashboard');
-        } else {
-            next();  // Lanjutkan ke halaman yang dituju
-        }
-    });
+    // Check if route requires authentication and user is not authenticated
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        next('/login');  // Redirect to login page
+    } else if (to.path === '/login' && isAuthenticated) {
+        next('/dashboard');  // If authenticated, redirect to dashboard
+    } else {
+        next();  // Proceed to the route
+    }
+});
 
 export default router;

@@ -24,7 +24,7 @@
                     <router-link to="/laporan-kegiatan" activeClass="text-blue-700 font-semibold">Laporan
                         Kegiatan</router-link>
                 </fwb-navbar-link>
-                <fwb-button class="rounded-md" v-if="!isLoggedIn">
+                <fwb-button class="rounded-md" v-if="!authStore.isLoggedIn">
                     <router-link class="px-3 font-bold tracking-wider" to="/login">Masuk</router-link>
                 </fwb-button>
                 <fwb-button class="rounded-md" v-else @click="logout">
@@ -36,6 +36,7 @@
 </template>
 
 <script setup>
+import { useAuthStore } from '../../stores/auth'; // Import your auth store
 import { ref } from 'vue';
 import axios from 'axios';
 import {
@@ -46,7 +47,7 @@ import {
     FwbNavbarLogo,
 } from 'flowbite-vue';
 
-const isLoggedIn = ref(!!localStorage.getItem("token")); // Check if user is logged in
+const authStore = useAuthStore(); // Access the auth store
 
 async function logout() {
     try {
@@ -56,8 +57,7 @@ async function logout() {
                 Authorization: `Bearer ${token}`  // Include the Authorization header
             }
         });
-        localStorage.removeItem("token"); // Clear the token
-        isLoggedIn.value = false; // Update login status
+        authStore.logout();
         window.location.href = '/login'; // Redirect to login page
     } catch (error) {
         console.error("Logout failed:", error);

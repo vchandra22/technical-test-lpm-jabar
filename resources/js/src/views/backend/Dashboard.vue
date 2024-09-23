@@ -3,12 +3,12 @@
         <h1 class="text-2xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-1 text-blue-700">
             Dashboard
         </h1>
-        <h2 class="text-xl font-bold mb-1 text-blue-700">
-            {{ user.name }}
-        </h2>
-        <h2 class="text-xl font-bold mb-1 text-blue-700">
-            {{ user.email }}
-        </h2>
+        <div class="text-xl font-bold mb-1 text-blue-700">
+            {{ user?.name }}
+        </div>
+        <div class="text-xl font-bold mb-1 text-blue-700">
+            {{ user?.email }}
+        </div>
     </div>
 </template>
 
@@ -19,27 +19,42 @@ export default {
     name: "Dashboard",
     data() {
         return {
-            AuthStr: 'Bearer ' + localStorage.getItem('token'),
-            user: {
-                name: '',
-                email: '',
-            }
+            user: null
         };
     },
-    mounted() {
-        this.fetchUser()
+    created() {
+        this.getCurrentUser();
     },
     methods: {
-        async fetchUser() {
+        async getCurrentUser() {
             try {
                 const response = await axios.get('/users/current', {
                     headers: {
-                        Authorization: this.AuthStr
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
                     }
                 });
-                this.user = response.data.data;
+
+                this.user = response.data.data; // Set user data
             } catch (error) {
-                console.error('Error fetching user:', error);
+                if (error.response) {
+                    // Server responded with a status code outside the range of 2xx
+                    if (error.response.status === 401) { // Correctly check for 401 status
+                        alert('Unauthorized access. Please log in again.');
+                        localStorage.removeItem('token'); // Clear token
+                        window.location.href = '/login'; // Redirect to login
+                    } else {
+                        console.error('Error fetching user data:', error.response.data);
+                        alert('An error occurred: ' + (error.response.data.message || 'Please try again.'));
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.error('No response received:', error.request);
+                    alert('No response from the server. Please check your connection.');
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.error('Error:', error.message);
+                    alert('Error: ' + error.message);
+                }
             }
         }
     }

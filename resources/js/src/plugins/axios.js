@@ -3,6 +3,8 @@ import axios from "axios";
 axios.defaults.baseURL = '/api';
 axios.defaults.withCredentials = true;
 
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
     // Do something before request is sent

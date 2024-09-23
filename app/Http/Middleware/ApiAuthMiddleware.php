@@ -17,23 +17,10 @@ class ApiAuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token = $request->header('Authorization');
-        $authenticate = true;
+        $authorizationHeader = $request->header('Authorization');
 
-        if (!$token) {
-            $authenticate = false;
-        }
-
-        $user = User::where('token', $token)->first();
-        if (!$user) {
-            $authenticate = false;
-        } else {
-            Auth::login($user);
-        }
-
-        if ($authenticate) {
-            return $next($request);
-        } else {
+        // Check if Authorization header exists and starts with Bearer
+        if (!$authorizationHeader || !str_starts_with($authorizationHeader, 'Bearer ')) {
             return response()->json([
                 "errors" => [
                     "message" => [
@@ -42,6 +29,24 @@ class ApiAuthMiddleware
                 ]
             ])->setStatusCode(401);
         }
+
+        // Extract token from the Authorization header
+        $token = str_replace('Bearer ', '', $authorizationHeader);
+
+        $user = User::where('token', $token)->first();
+
+        if (!$user) {
+            return response()->json([
+                "errors" => [
+                    "message" => [
+                        "unauthorized"
+                    ]
+                ]
+            ])->setStatusCode(401);
+        }
+
+        // Log in the user if token matches
+        Auth::login($user);
 
         return $next($request);
     }
