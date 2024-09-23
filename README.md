@@ -11,7 +11,7 @@
 
 -   Buka terminal dan docker desktop di komputer
 -   Buka directory dimana file project akan di install menggunakan perintah `cd` di ikuti path
--   Clone project menggunakan perintah `git clone https://github.com/vchandra22/sigma-v2.git`
+-   Clone project menggunakan perintah `git clone https://github.com/vchandra22/technical-test-lpm-jabar.git`
 -   cp file env.example ke dalam file .env
 -   Jalankan perintah `docker-compose build --no-cache`
 -   Tunggu sampai proses build selesai, kemudian `docker-compose up -d`
