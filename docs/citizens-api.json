@@ -80,7 +80,7 @@
                     }
                 },
                 "responses": {
-                    "200" : {
+                    "201" : {
                         "description": "Success create citizens",
                         "content": {
                             "application/json" : {

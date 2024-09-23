@@ -1,6 +1,8 @@
 <template>
+    <fwb-alert type="danger" class="mt-20 pt-5 absolute w-full top-0 left-0" v-if="errorMessage">{{
+        errorMessage }}</fwb-alert>
     <div class="container px-4 min-h-screen mt-32 pt-12 w-full mx-auto">
-        <div class="w-5/6 md:w-2/3 xl:w-1/3 border border-slate-200 bg-slate-50 h-auto flex mx-auto rounded-md">
+        <div class="w-full md:w-2/3 xl:w-1/3 border border-slate-200 bg-slate-50 h-auto flex mx-auto rounded-md">
             <div class="py-12 px-4 text-center w-full mx-auto">
                 <h1 class="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold mb-4 text-blue-700">
                     Selamat Datang,
@@ -30,7 +32,7 @@
 
                         <!-- Submit Button -->
                         <div class="flex items-center justify-between">
-                            <button type="submit"
+                            <button type="submit" v-on:click="login"
                                 class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring tracking-wide focus:ring-blue-300">
                                 Masuk
                             </button>
@@ -46,10 +48,44 @@
     </div>
 </template>
 
+<script setup>
+import { FwbAlert } from 'flowbite-vue'
+</script>
+
 <script>
+import axios from 'axios';
+
 export default {
-    name: "Login"
-}
+    name: "Login",
+    data() {
+        return {
+            email: "",
+            password: "",
+            errorMessage: ""
+        };
+    },
+    methods: {
+        async login() {
+            try {
+                const response = await axios.post('/users/login', {
+                    email: this.email,
+                    password: this.password
+                });
+
+                //jika login sukses
+                const userData = response.data.data;
+                localStorage.setItem("token", userData.token);
+                this.$router.push("/dashboard");
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    this.errorMessage = "Email or password is incorrect.";
+                } else {
+                    this.errorMessage = "An error occurred. Please try again.";
+                }
+            }
+        }
+    }
+};
 </script>
 
 <style scoped></style>
