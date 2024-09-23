@@ -15,13 +15,14 @@
 -   cp file env.example ke dalam file .env
 -   Jalankan perintah `docker-compose build --no-cache`
 -   Tunggu sampai proses build selesai, kemudian `docker-compose up -d`
--   Buka web browser kemudian akses url http://localhost:8088/
+-   Buka web browser kemudian akses url http://localhost:8081/
 
 ### Artisan commands or manage package
 
 -   Aplikasi berjalan menggunakan docker container
 -   Menjalankan artisan commands atau manage package dapat dilakukan dalam container
 -   Gunakan perintah `docker compose exec php bash`
+-   Jalankan perintah `npm run dev` di dalam container jika tampilan tidak sesuai
 
 ### Cara mengakses phpmyadmin/db
 
