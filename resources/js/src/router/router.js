@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useAuthStore } from '../stores/auth'; // Import your auth store
+import { useAuthStore } from '../stores/authStore'; // Import your auth store
 import Beranda from "../views/Beranda.vue";
 
 const routes = [
@@ -28,6 +28,14 @@ const routes = [
         component: () => import('../views/auth/Login.vue'),
         meta: {
             title: 'Masuk',
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/register',
+        component: () => import('../views/auth/Register.vue'),
+        meta: {
+            title: 'Mendaftar',
             requiresAuth: false
         }
     },

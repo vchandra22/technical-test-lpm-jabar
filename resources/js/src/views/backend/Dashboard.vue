@@ -1,14 +1,14 @@
 <template>
-    <div class="container px-4 min-h-screen mt-20 pt-12">
+    <div class="container px-4 min-h-screen mt-20 py-12 bg-red-200 w-full">
         <h1 class="text-2xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-1 text-blue-700">
             Dashboard
         </h1>
-        <div class="text-xl font-bold mb-1 text-blue-700">
+        <p class="text-xl font-bold mb-1 text-blue-700 break-words">
             {{ user?.name }}
-        </div>
-        <div class="text-xl font-bold mb-1 text-blue-700">
+        </p>
+        <p class="text-md font-bold mb-1 text-blue-700 break-words">
             {{ user?.email }}
-        </div>
+        </p>
     </div>
 </template>
 

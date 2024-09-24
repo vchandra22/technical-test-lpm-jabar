@@ -43,7 +43,8 @@
                 </div>
 
                 <p class="text-center text-sm text-slate-500 mt-4">
-                    Tidak punya akun? <a href="#" class="text-blue-700 hover:underline">Mendaftar</a>
+                    Tidak punya akun?
+                    <router-link to="/register" class="text-blue-700 hover:underline">Mendaftar</router-link>
                 </p>
             </div>
         </div>
@@ -55,7 +56,7 @@ import { FwbAlert } from 'flowbite-vue'
 </script>
 
 <script>
-import { useAuthStore } from '../../stores/auth';
+import { useAuthStore } from '../../stores/authStore';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 

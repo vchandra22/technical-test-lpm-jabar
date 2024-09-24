@@ -116,7 +116,7 @@ class UserTest extends TestCase
         $this->seed([UserSeeder::class]);
 
         $this->get('/api/users/current', [
-            'Authorization' => 'test'
+            'Authorization' => 'Bearer test'
         ])->assertStatus(200)
             ->assertJson([
                 'data' => [
@@ -168,7 +168,7 @@ class UserTest extends TestCase
                 'password' => 'newpassword'
             ],
             [
-                'Authorization' => 'test'
+                'Authorization' => 'Bearer test'
             ]
         )->assertStatus(200)
             ->assertJson([
@@ -193,7 +193,7 @@ class UserTest extends TestCase
                 'name' => 'Vincent'
             ],
             [
-                'Authorization' => 'test'
+                'Authorization' => 'Bearer test'
             ]
         )->assertStatus(200)
             ->assertJson([
@@ -218,7 +218,7 @@ class UserTest extends TestCase
                 'email' => 'newtest@example.com'
             ],
             [
-                'Authorization' => 'test'
+                'Authorization' => 'Bearer test'
             ]
         )->assertStatus(200)
             ->assertJson([
@@ -242,7 +242,7 @@ class UserTest extends TestCase
                 'email' => 'test'
             ],
             [
-                'Authorization' => 'test'
+                'Authorization' => 'Bearer test'
             ]
         )->assertStatus(400)
             ->assertJson([
@@ -259,7 +259,7 @@ class UserTest extends TestCase
         $this->seed([UserSeeder::class]);
 
         $this->delete(uri: '/api/users/logout', headers: [
-            'Authorization' => 'test'
+            'Authorization' => 'Bearer test'
         ])->assertStatus(200)
             ->assertJson([
                 "data" => true
