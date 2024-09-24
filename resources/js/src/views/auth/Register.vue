@@ -47,7 +47,8 @@
                             <input v-model="confirmation_password" type="password" id="confirmation_password"
                                 class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                 placeholder="********" required />
-                            <p v-if="passwordMismatch" class="text-red-500 text-start text-sm mt-1">Password tidak cocok!</p>
+                            <p v-if="passwordMismatch" class="text-red-500 text-start text-sm mt-1">Password tidak
+                                cocok!</p>
                         </div>
 
                         <!-- Submit Button -->
@@ -115,7 +116,7 @@ export default {
                 const userData = response.data.data;
 
                 // Redirect to login page or dashboard after registration
-                window.location.href = '/login';
+                this.$router.push("/login");
             } catch (error) {
                 if (error.response && error.response.status === 400) {
                     const errors = error.response.data.errors;
