@@ -2,7 +2,7 @@
     <fwb-alert type="danger" class="mt-20 pt-5 absolute w-full top-0 left-0" v-if="errorMessage">
         {{ errorMessage }}
     </fwb-alert>
-    <div class="container px-4 min-h-screen mt-32 pt-12 w-full mx-auto">
+    <div class="container px-4 min-h-screen mt-32 py-12 w-full mx-auto">
         <div class="w-full md:w-2/3 xl:w-1/3 border border-slate-200 bg-slate-50 h-auto flex mx-auto rounded-md">
             <div class="py-12 px-4 text-center w-full mx-auto">
                 <h1 class="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold mb-4 text-blue-700">
