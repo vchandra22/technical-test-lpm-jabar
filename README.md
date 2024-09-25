@@ -27,6 +27,7 @@
 ### Cara mengakses phpmyadmin/db
 
 -   URL: http://localhost:8088
+-   Server: `db`
 -   Username: `admin`
 -   Password: `password`
 -   Database: `lpm_jabar_db`

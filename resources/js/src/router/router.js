@@ -57,7 +57,7 @@ const router = createRouter({
 // Route guard for authentication and title handling
 router.beforeEach((to, from, next) => {
     // Set document title from meta property
-    document.title = to.meta.title || 'Default Title';
+    document.title = to.meta.title || 'LPM Jawa Barat';
 
     const authStore = useAuthStore(); // Access the auth store
     const isAuthenticated = authStore.isLoggedIn; // Get the authentication state from the store
