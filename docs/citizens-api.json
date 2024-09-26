@@ -184,6 +184,22 @@
                         "in" : "query"
                     },
                     {
+                        "name" : "kab_kota",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "kecamatan",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "kelurahan",
+                        "in" : "query"
+                    },
+                    {
+                        "name" : "alamat",
+                        "in" : "query"
+                    },
+                    {
                         "name" : "size",
                         "in" : "query"
                     },
@@ -276,7 +292,7 @@
                 }
             }
         },
-        "api/citizens/{id}" : {
+        "/api/citizens/{id}" : {
             "put" : {
                 "description" : "Update citizens",
                 "parameters": [
