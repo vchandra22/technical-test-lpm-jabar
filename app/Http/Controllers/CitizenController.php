@@ -15,58 +15,21 @@ class CitizenController extends Controller
     {
         $page = $request->input('page', 1);
         $size = $request->input('size', 10);
+        $searchTerm = $request->input('search', '');
 
-        $citizens = Citizen::where(function (Builder $builder) use ($request) {
-            $nama = $request->input('nama');
-            if ($nama) {
-                $builder->where(function (Builder $builder) use ($nama) {
-                    $builder->orWhere('nama', 'like', '%' . $nama . '%');
+        $citizens = Citizen::where(function (Builder $builder) use ($searchTerm) {
+            if ($searchTerm) {
+                $builder->where(function (Builder $query) use ($searchTerm) {
+                    $query->orWhere('nama', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('nik', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('no_kk', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('umur', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('provinsi', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('kab_kota', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('kecamatan', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('kelurahan', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('alamat', 'like', '%' . $searchTerm . '%');
                 });
-            }
-
-            $nik = $request->input('nik');
-            if ($nik) {
-                $builder->where('nik', 'like', '%' . $nik . '%');
-            }
-
-            $no_kk = $request->input('no_kk');
-            if ($no_kk) {
-                $builder->where('no_kk', 'like', '%' . $no_kk . '%');
-            }
-
-            $umur = $request->input('umur');
-            if ($umur) {
-                $builder->where('umur', 'like', '%' . $umur . '%');
-            }
-
-            $provinsi = $request->input('provinsi');
-            if ($provinsi) {
-                $builder->where('provinsi', 'like', '%' . $provinsi . '%');
-            }
-
-            $kab_kota = $request->input('kab_kota');
-            if ($kab_kota) {
-                $builder->where('kab_kota', 'like', '%' . $kab_kota . '%');
-            }
-
-            $provinsi = $request->input('provinsi');
-            if ($provinsi) {
-                $builder->where('provinsi', 'like', '%' . $provinsi . '%');
-            }
-
-            $kecamatan = $request->input('kecamatan');
-            if ($kecamatan) {
-                $builder->where('kecamatan', 'like', '%' . $kecamatan . '%');
-            }
-
-            $kelurahan = $request->input('kelurahan');
-            if ($kelurahan) {
-                $builder->where('kelurahan', 'like', '%' . $kelurahan . '%');
-            }
-
-            $alamat = $request->input('alamat');
-            if ($alamat) {
-                $builder->where('alamat', 'like', '%' . $alamat . '%');
             }
         });
 

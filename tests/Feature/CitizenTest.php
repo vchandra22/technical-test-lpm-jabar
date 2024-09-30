@@ -14,7 +14,7 @@ class CitizenTest extends TestCase
     {
         $this->seed([UserSeeder::class, CitizenSeeder::class]);
 
-        $response = $this->get('/api/citizens?nama=john', [
+        $response = $this->get('/api/citizens?search=john', [
             'Authorization' => 'Bearer test'
         ])->assertStatus(200)
             ->json();
@@ -29,7 +29,7 @@ class CitizenTest extends TestCase
     {
         $this->seed([UserSeeder::class, CitizenSeeder::class]);
 
-        $response = $this->get('/api/citizens?nik=35051803110', [
+        $response = $this->get('/api/citizens?search=35051803110', [
             'Authorization' => 'Bearer test'
         ])->assertStatus(200)
             ->json();
@@ -44,7 +44,7 @@ class CitizenTest extends TestCase
     {
         $this->seed([UserSeeder::class, CitizenSeeder::class]);
 
-        $response = $this->get('/api/citizens?no_kk=35051803110', [
+        $response = $this->get('/api/citizens?search=35051803110', [
             'Authorization' => 'Bearer test'
         ])->assertStatus(200)
             ->json();
@@ -59,7 +59,7 @@ class CitizenTest extends TestCase
     {
         $this->seed([UserSeeder::class, CitizenSeeder::class]);
 
-        $response = $this->get('/api/citizens?nama=tidakada', [
+        $response = $this->get('/api/citizens?search=tidakada', [
             'Authorization' => 'Bearer test'
         ])->assertStatus(200)
             ->json();
