@@ -5,7 +5,7 @@
             <fwb-footer-link-group
                 class="text-slate-100 font-regular mx-auto md:mx-0 flex justify-center md:justify-start">
                 <fwb-footer-link>
-                    <router-link to="/beranda">Beranda</router-link>
+                    <router-link to="/">Beranda</router-link>
                 </fwb-footer-link>
                 <fwb-footer-link>
                     <router-link to="/layanan">Layanan</router-link>

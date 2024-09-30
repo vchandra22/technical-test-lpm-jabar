@@ -40,68 +40,25 @@
                 <fwb-table-head-cell>RT / RW</fwb-table-head-cell>
                 <fwb-table-head-cell>Penghasilan Sebelum Pandemi</fwb-table-head-cell>
                 <fwb-table-head-cell>Penghasilan Setelah Pandemi</fwb-table-head-cell>
-                <fwb-table-head-cell>
-                    <span>Action</span>
-                </fwb-table-head-cell>
+                <fwb-table-head-cell>Action</fwb-table-head-cell>
             </fwb-table-head>
             <fwb-table-body>
-                <fwb-table-row>
-                    <fwb-table-cell>1</fwb-table-cell>
-                    <fwb-table-cell>John Doe</fwb-table-cell>
-                    <fwb-table-cell>35051803111111</fwb-table-cell>
-                    <fwb-table-cell>3505 1834 1111</fwb-table-cell>
-                    <fwb-table-cell>27</fwb-table-cell>
-                    <fwb-table-cell>Laki-Laki</fwb-table-cell>
-                    <fwb-table-cell>Jawa Barat</fwb-table-cell>
-                    <fwb-table-cell>Cikeas</fwb-table-cell>
-                    <fwb-table-cell>Cikeas</fwb-table-cell>
-                    <fwb-table-cell>Sukamaju</fwb-table-cell>
-                    <fwb-table-cell>Jl. Bunga Matahari No. 119</fwb-table-cell>
-                    <fwb-table-cell>004/012</fwb-table-cell>
-                    <fwb-table-cell>Rp. 3.486.903</fwb-table-cell>
-                    <fwb-table-cell>Rp. 2.566.095</fwb-table-cell>
-                    <fwb-table-cell>
-                        <fwb-a href="#">
-                            Edit
-                        </fwb-a>
-                    </fwb-table-cell>
-                </fwb-table-row>
-                <fwb-table-row>
-                    <fwb-table-cell>1</fwb-table-cell>
-                    <fwb-table-cell>John Doe</fwb-table-cell>
-                    <fwb-table-cell>35051803111111</fwb-table-cell>
-                    <fwb-table-cell>3505 1834 1111</fwb-table-cell>
-                    <fwb-table-cell>27</fwb-table-cell>
-                    <fwb-table-cell>Laki-Laki</fwb-table-cell>
-                    <fwb-table-cell>Jawa Barat</fwb-table-cell>
-                    <fwb-table-cell>Cikeas</fwb-table-cell>
-                    <fwb-table-cell>Cikeas</fwb-table-cell>
-                    <fwb-table-cell>Sukamaju</fwb-table-cell>
-                    <fwb-table-cell>Jl. Bunga Matahari No. 119</fwb-table-cell>
-                    <fwb-table-cell>004/012</fwb-table-cell>
-                    <fwb-table-cell>Rp. 3.486.903</fwb-table-cell>
-                    <fwb-table-cell>Rp. 2.566.095</fwb-table-cell>
-                    <fwb-table-cell>
-                        <fwb-a href="#">
-                            Edit
-                        </fwb-a>
-                    </fwb-table-cell>
-                </fwb-table-row>
-                <fwb-table-row>
-                    <fwb-table-cell>1</fwb-table-cell>
-                    <fwb-table-cell>John Doe</fwb-table-cell>
-                    <fwb-table-cell>35051803111111</fwb-table-cell>
-                    <fwb-table-cell class="whitespace-pre">3505 1834 1111</fwb-table-cell>
-                    <fwb-table-cell>27</fwb-table-cell>
-                    <fwb-table-cell class="whitespace-pre">Laki-Laki</fwb-table-cell>
-                    <fwb-table-cell>Jawa Barat</fwb-table-cell>
-                    <fwb-table-cell>Cikeas</fwb-table-cell>
-                    <fwb-table-cell>Cikeas</fwb-table-cell>
-                    <fwb-table-cell>Sukamaju</fwb-table-cell>
-                    <fwb-table-cell>Jl. Bunga Matahari No. 119</fwb-table-cell>
-                    <fwb-table-cell>004/012</fwb-table-cell>
-                    <fwb-table-cell class="whitespace-pre">Rp. 3.486.903</fwb-table-cell>
-                    <fwb-table-cell class="whitespace-pre">Rp. 2.566.095</fwb-table-cell>
+                <!-- Loop through the citizens array and render each row -->
+                <fwb-table-row v-for="(citizen, index) in citizens" :key="citizen.id">
+                    <fwb-table-cell>{{ index + 1 }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.nama }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.nik }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.no_kk }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.umur }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.jenis_kelamin }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.provinsi }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.kab_kota }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.kecamatan }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.kelurahan }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.alamat }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.rt }} {{ citizen.rw }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.b_penghasilan }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.s_penghasilan }}</fwb-table-cell>
                     <fwb-table-cell>
                         <fwb-a href="#">
                             Edit
@@ -123,7 +80,7 @@ import {
     FwbTableHeadCell,
     FwbTableRow,
     FwbInput
-} from 'flowbite-vue'
+} from 'flowbite-vue';
 </script>
 
 <script>
@@ -133,11 +90,14 @@ export default {
     name: "Dashboard",
     data() {
         return {
-            user: null
+            user: null,
+            citizens: [], // To store the data to be shown in the table
+            name: '', // For search functionality
         };
     },
     created() {
         this.getCurrentUser();
+        this.getAllCitizens(); // Fetch the list of citizens when the component is created
     },
     methods: {
         async getCurrentUser() {
@@ -151,24 +111,35 @@ export default {
                 this.user = response.data.data; // Set user data
             } catch (error) {
                 if (error.response) {
-                    // Server responded with a status code outside the range of 2xx
-                    if (error.response.status === 401) { // Correctly check for 401 status
+                    if (error.response.status === 401) {
                         alert('Unauthorized access. Please log in again.');
-                        localStorage.removeItem('token'); // Clear token
-                        window.location.href = '/login'; // Redirect to login
+                        localStorage.removeItem('token');
+                        window.location.href = '/login';
                     } else {
                         console.error('Error fetching user data:', error.response.data);
                         alert('An error occurred: ' + (error.response.data.message || 'Please try again.'));
                     }
                 } else if (error.request) {
-                    // The request was made but no response was received
                     console.error('No response received:', error.request);
                     alert('No response from the server. Please check your connection.');
                 } else {
-                    // Something happened in setting up the request that triggered an error
                     console.error('Error:', error.message);
                     alert('Error: ' + error.message);
                 }
+            }
+        },
+        async getAllCitizens() {
+            try {
+                const response = await axios.get('/citizens', {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+
+                this.citizens = response.data.data; // Set the list of citizens
+            } catch (error) {
+                console.error('Error fetching citizens data:', error);
+                alert('An error occurred while fetching data.');
             }
         }
     }

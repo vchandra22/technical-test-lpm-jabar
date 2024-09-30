@@ -6,7 +6,7 @@ services:
     ####################################################################################################
     php:
         build: .docker/php
-        container_name: php
+        container_name: php-lpm
         ports:
             - 5173:5173
         volumes:
@@ -17,7 +17,7 @@ services:
     ####################################################################################################
     nginx:
         image: nginx
-        container_name: nginx-webserver
+        container_name: nginx-webserver-lpm
         ports:
             - 8081:8081
         volumes:
@@ -32,7 +32,7 @@ services:
     ####################################################################################################
     db:
         image: mysql:8.1
-        container_name: database
+        container_name: database-lpm
         ports:
             - 3306:3306
         volumes:
@@ -51,7 +51,7 @@ services:
     ####################################################################################################
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
+        container_name: phpmyadmin-lpm
         ports:
             - 8088:80
         links:

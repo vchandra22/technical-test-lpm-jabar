@@ -60,6 +60,10 @@
                             </button>
                         </div>
                     </form>
+                    <p class="text-center text-sm text-slate-500 mt-4">
+                        Sudah punya akun?
+                        <router-link to="/login" class="text-blue-700 hover:underline">Masuk</router-link>
+                    </p>
                 </div>
             </div>
         </div>
