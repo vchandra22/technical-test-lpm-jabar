@@ -85,4 +85,53 @@ class CitizenTest extends TestCase
         self::assertEquals(20, $response['meta']['total']);
         self::assertEquals(2, $response['meta']['current_page']);
     }
+
+    public function testCreateCitizen()
+    {
+
+        $this->seed([UserSeeder::class]);
+
+        $this->post('/api/citizens', [
+            'nama' => 'Test',
+            'nik' => 350518031100213,
+            'no_kk' => 350518031100213,
+            'foto_ktp' => 'xShuSSHGFOZNcijsa.png',
+            'foto_kk' => 'xShuSSHGFOZNcij3a.png',
+            'umur' => 22,
+            'jenis_kelamin' => 'Laki-laki',
+            'provinsi' => 'Jawa Barat',
+            'kab_kota' => 'Bandung',
+            'kecamatan' => 'Cikeas',
+            'kelurahan' => 'Sukamaju',
+            'alamat' => 'test',
+            'rt' => '003',
+            'rw' => '001',
+            'b_penghasilan' => 1243998,
+            's_penghasilan' => 1186398,
+            'alasan' => 'alasan'
+        ], [
+            'Authorization' => 'Bearer test'
+        ])->assertStatus(201)
+            ->assertJson([
+                "data" => [
+                    'nama' => 'Test',
+                    'nik' => 350518031100213,
+                    'no_kk' => 350518031100213,
+                    'foto_ktp' => 'xShuSSHGFOZNcijsa.png',
+                    'foto_kk' => 'xShuSSHGFOZNcij3a.png',
+                    'umur' => 22,
+                    'jenis_kelamin' => 'Laki-laki',
+                    'provinsi' => 'Jawa Barat',
+                    'kab_kota' => 'Bandung',
+                    'kecamatan' => 'Cikeas',
+                    'kelurahan' => 'Sukamaju',
+                    'alamat' => 'test',
+                    'rt' => '003',
+                    'rw' => '001',
+                    'b_penghasilan' => 1243998,
+                    's_penghasilan' => 1186398,
+                    'alasan' => 'alasan'
+                ]
+            ]);
+    }
 }

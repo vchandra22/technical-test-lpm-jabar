@@ -25,10 +25,10 @@ return new class extends Migration
             $table->string('kecamatan')->nullable(false);
             $table->string('kelurahan')->nullable(false);
             $table->string('alamat')->nullable(false);
-            $table->string('rt')->nullable(false);
-            $table->string('rw')->nullable(false);
-            $table->string('b_penghasilan')->nullable(false);
-            $table->string('s_penghasilan')->nullable(false);
+            $table->integer('rt')->nullable(false);
+            $table->integer('rw')->nullable(false);
+            $table->integer('b_penghasilan')->nullable(false);
+            $table->integer('s_penghasilan')->nullable(false);
             $table->text('alasan')->nullable(false);
             $table->timestamps();
         });

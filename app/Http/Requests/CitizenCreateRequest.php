@@ -25,10 +25,10 @@ class CitizenCreateRequest extends FormRequest
     {
         return [
             'nama' => ['required', 'string', 'max:255'],
-            'nik' => ['required', 'string', 'unique:citizens,nik'],
-            'no_kk' => ['required', 'string', 'unique:citizens,no_kk'],
-            'foto_ktp' => ['required', 'string'], // Assuming it's a URL or file path
-            'foto_kk' => ['required', 'string'],  // Assuming it's a URL or file path
+            'nik' => ['required', 'unique:citizens,nik'],
+            'no_kk' => ['required', 'unique:citizens,no_kk'],
+            'foto_ktp' => ['required'], // Assuming it's a URL or file path
+            'foto_kk' => ['required'],  // Assuming it's a URL or file path
             'umur' => ['required', 'integer'],    // Age must be an integer
             'jenis_kelamin' => ['required', 'in:Laki-laki,Perempuan'], // Enum values
             'provinsi' => ['required', 'string'],
@@ -36,10 +36,10 @@ class CitizenCreateRequest extends FormRequest
             'kecamatan' => ['required', 'string'],
             'kelurahan' => ['required', 'string'],
             'alamat' => ['required', 'string'],
-            'rt' => ['required', 'string'],
-            'rw' => ['required', 'string'],
-            'b_penghasilan' => ['required', 'string'],
-            's_penghasilan' => ['required', 'string'],
+            'rt' => ['required'],
+            'rw' => ['required'],
+            'b_penghasilan' => ['required'],
+            's_penghasilan' => ['required'],
             'alasan' => ['required', 'string'], // Assuming this is a text field
         ];
     }

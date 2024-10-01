@@ -1,3 +1,73 @@
+<template>
+    <div class="container px-4 min-h-screen mt-14 py-12 w-full">
+        <!-- User Info -->
+        <h1 class="text-2xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-1 text-blue-700">Dashboard</h1>
+        <p class="text-xl font-bold mb-1 text-blue-700 break-words">{{ user?.name }}</p>
+        <p class="text-md font-bold mb-1 text-blue-700 break-words">{{ user?.email }}</p>
+
+        <!-- Search Form -->
+        <div class="my-4">
+            <fwb-input v-model="searchQuery" @input="debouncedSearch" placeholder="Cari. . .">
+                <template #prefix>
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2" />
+                    </svg>
+                </template>
+            </fwb-input>
+        </div>
+
+        <!-- Citizen Table -->
+        <fwb-table striped class="shadow-none rounded-md border">
+            <fwb-table-head>
+                <!-- Table Head Cells -->
+                <fwb-table-head-cell>No.</fwb-table-head-cell>
+                <fwb-table-head-cell>Nama Lengkap</fwb-table-head-cell>
+                <fwb-table-head-cell>NIK</fwb-table-head-cell>
+                <fwb-table-head-cell>No.KK</fwb-table-head-cell>
+                <fwb-table-head-cell>Usia</fwb-table-head-cell>
+                <fwb-table-head-cell>Jenis Kelamin</fwb-table-head-cell>
+                <fwb-table-head-cell>Provinsi</fwb-table-head-cell>
+                <fwb-table-head-cell>Kab / Kota</fwb-table-head-cell>
+                <fwb-table-head-cell>Kecamatan</fwb-table-head-cell>
+                <fwb-table-head-cell>Kelurahan</fwb-table-head-cell>
+                <fwb-table-head-cell>Alamat</fwb-table-head-cell>
+                <fwb-table-head-cell>RT / RW</fwb-table-head-cell>
+                <fwb-table-head-cell>Penghasilan Sebelum Pandemi</fwb-table-head-cell>
+                <fwb-table-head-cell>Penghasilan Setelah Pandemi</fwb-table-head-cell>
+                <fwb-table-head-cell>Action</fwb-table-head-cell>
+            </fwb-table-head>
+            <fwb-table-body>
+                <!-- Table Rows -->
+                <fwb-table-row v-for="(citizen, index) in citizens" :key="citizen.id">
+                    <fwb-table-cell>{{ (pagination.current_page - 1) * pageSize + index + 1 }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.nama }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.nik }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.no_kk }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.umur }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.jenis_kelamin }}</fwb-table-cell>
+                    <fwb-table-cell class="whitespace-nowrap">{{ citizen.provinsi }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.kab_kota }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.kecamatan }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.kelurahan }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.alamat }}</fwb-table-cell>
+                    <fwb-table-cell class="whitespace-nowrap">{{ citizen.rt }} / {{ citizen.rw }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.b_penghasilan }}</fwb-table-cell>
+                    <fwb-table-cell>{{ citizen.s_penghasilan }}</fwb-table-cell>
+                    <fwb-table-cell>
+                        <fwb-a href="#">Edit</fwb-a>
+                    </fwb-table-cell>
+                </fwb-table-row>
+            </fwb-table-body>
+        </fwb-table>
+
+        <!-- Pagination -->
+        <fwb-pagination class="py-4 w-full mx-auto flex justify-center" v-model="pagination.current_page"
+            :total-pages="pagination.last_page" :total="pagination.total" show-icons @page-changed="getAllCitizens" />
+    </div>
+</template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import { debounce } from 'lodash';
@@ -108,73 +178,3 @@ export default {
     }
 }
 </script>
-
-<template>
-    <div class="container px-4 min-h-screen mt-14 py-12 w-full">
-        <!-- User Info -->
-        <h1 class="text-2xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-1 text-blue-700">Dashboard</h1>
-        <p class="text-xl font-bold mb-1 text-blue-700 break-words">{{ user?.name }}</p>
-        <p class="text-md font-bold mb-1 text-blue-700 break-words">{{ user?.email }}</p>
-
-        <!-- Search Form -->
-        <div class="my-4">
-            <fwb-input v-model="searchQuery" @input="debouncedSearch" placeholder="Cari. . .">
-                <template #prefix>
-                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" />
-                    </svg>
-                </template>
-            </fwb-input>
-        </div>
-
-        <!-- Citizen Table -->
-        <fwb-table striped class="shadow-none rounded-md border">
-            <fwb-table-head>
-                <!-- Table Head Cells -->
-                <fwb-table-head-cell>No.</fwb-table-head-cell>
-                <fwb-table-head-cell>Nama Lengkap</fwb-table-head-cell>
-                <fwb-table-head-cell>NIK</fwb-table-head-cell>
-                <fwb-table-head-cell>No.KK</fwb-table-head-cell>
-                <fwb-table-head-cell>Usia</fwb-table-head-cell>
-                <fwb-table-head-cell>Jenis Kelamin</fwb-table-head-cell>
-                <fwb-table-head-cell>Provinsi</fwb-table-head-cell>
-                <fwb-table-head-cell>Kab / Kota</fwb-table-head-cell>
-                <fwb-table-head-cell>Kecamatan</fwb-table-head-cell>
-                <fwb-table-head-cell>Kelurahan</fwb-table-head-cell>
-                <fwb-table-head-cell>Alamat</fwb-table-head-cell>
-                <fwb-table-head-cell>RT / RW</fwb-table-head-cell>
-                <fwb-table-head-cell>Penghasilan Sebelum Pandemi</fwb-table-head-cell>
-                <fwb-table-head-cell>Penghasilan Setelah Pandemi</fwb-table-head-cell>
-                <fwb-table-head-cell>Action</fwb-table-head-cell>
-            </fwb-table-head>
-            <fwb-table-body>
-                <!-- Table Rows -->
-                <fwb-table-row v-for="(citizen, index) in citizens" :key="citizen.id">
-                    <fwb-table-cell>{{ (pagination.current_page - 1) * pageSize + index + 1 }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.nama }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.nik }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.no_kk }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.umur }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.jenis_kelamin }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.provinsi }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.kab_kota }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.kecamatan }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.kelurahan }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.alamat }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.rt }} / {{ citizen.rw }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.b_penghasilan }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.s_penghasilan }}</fwb-table-cell>
-                    <fwb-table-cell>
-                        <fwb-a href="#">Edit</fwb-a>
-                    </fwb-table-cell>
-                </fwb-table-row>
-            </fwb-table-body>
-        </fwb-table>
-
-        <!-- Pagination -->
-        <fwb-pagination v-model="pagination.current_page" :total-pages="pagination.last_page" :total="pagination.total"
-            show-icons @page-changed="getAllCitizens" />
-    </div>
-</template>

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CitizenCreateRequest;
 use App\Http\Resources\CitizenCollection;
+use App\Http\Resources\CitizenResource;
 use App\Models\Citizen;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Exception;
 
 class CitizenController extends Controller
 {
@@ -36,5 +39,45 @@ class CitizenController extends Controller
         $citizens = $citizens->paginate(perPage: $size, page: $page);
 
         return new CitizenCollection($citizens);
+    }
+
+    public function store(CitizenCreateRequest $request): JsonResponse
+    {
+        try {
+            // Validate request data
+            $data = $request->validated();
+
+            // Check if email already exists
+            if (Citizen::where('nik', $data['nik'])->exists()) {
+                // Throw an exception if the email is already registered
+                throw new HttpResponseException(response()->json([
+                    "errors" => [
+                        "nik" => [
+                            "NIK already registered"
+                        ]
+                    ]
+                ], 400));
+            }
+
+            // Create new citizen
+            $citizen = new Citizen($data);
+            $citizen->save();
+
+            // Return success response
+            return (new CitizenResource($citizen))
+                ->response()
+                ->setStatusCode(201);
+        } catch (HttpResponseException $e) {
+            // Handle the custom response exception thrown
+            throw $e;
+        } catch (Exception $e) {
+            // Handle any other exceptions
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    'message' => 'Something went wrong',
+                    'details' => $e->getMessage()
+                ]
+            ], 500));
+        }
     }
 }

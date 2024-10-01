@@ -47,6 +47,14 @@ const routes = [
             requiresAuth: true
         }
     },
+    {
+        path: '/tambah-data',
+        component: () => import('../views/backend/citizen/Create.vue'),
+        meta: {
+            title: 'Tambah Data',
+            requiresAuth: true
+        }
+    },
 ];
 
 const router = createRouter({
