@@ -1,28 +1,41 @@
 import axios from "axios";
 
-axios.defaults.baseURL = '/api';
-axios.defaults.withCredentials = true;
+// Create a new Axios instance
+const instance = axios.create({
+    baseURL: '/api', // Set the base URL for the instance
+    withCredentials: true, // Send cookies with requests if needed
+    headers: {
+        'Content-Type': 'application/json',
+        // Note: 'Access-Control-Allow-Origin' is a response header, not a request header.
+        // It should be set by the server, not the client. Hence, this line is unnecessary.
+    },
+});
 
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+// Set the Authorization token from localStorage in the common headers
+instance.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
-    // Do something before request is sent
-        return config;
-    }, function (error) {
-        // Do something with request error
-        return Promise.reject(error);
-    });
+instance.interceptors.request.use(function (config) {
+    // Do something before the request is sent
+    // You can modify the request config here if needed
+    return config;
+}, function (error) {
+    // Handle the request error
+    return Promise.reject(error);
+});
 
 // Add a response interceptor
-axios.interceptors.response.use(function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-        return response;
-    }, function (error) {
-        // Any status codes that falls outside the range of 2xx cause this function to trigger
-        // Do something with response error
-        return Promise.reject(error);
-    });
+instance.interceptors.response.use(function (response) {
+    // Any status code within the range of 2xx triggers this function
+    // You can modify or log the response here
+    return response;
+}, function (error) {
+    // Handle any status codes that fall outside the range of 2xx
+    if (error.response && error.response.status === 401) {
+        // Example: Handle unauthorized (401) response here (e.g., redirect to login)
+    }
+    return Promise.reject(error);
+});
 
-export default axios;
+// Export the Axios instance for use throughout your app
+export default instance;
