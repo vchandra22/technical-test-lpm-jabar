@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CitizenCreateRequest;
+use App\Http\Requests\CitizenUpdateRequest;
 use App\Http\Resources\CitizenCollection;
 use App\Http\Resources\CitizenResource;
 use App\Models\Citizen;
@@ -59,9 +60,19 @@ class CitizenController extends Controller
                 ], 400));
             }
 
-            // Create new citizen
-            $citizen = new Citizen($data);
-            $citizen->save();
+            // Handle file uploads
+            if ($request->hasFile('foto_ktp')) {
+                // Store the file and get the path
+                $data['foto_ktp'] = $request->file('foto_ktp')->store('uploads/foto_ktp', 'public');
+            }
+
+            if ($request->hasFile('foto_kk')) {
+                // Store the file and get the path
+                $data['foto_kk'] = $request->file('foto_kk')->store('uploads/foto_kk', 'public');
+            }
+
+            // Create new citizen with the file paths included
+            $citizen = Citizen::create($data);
 
             // Return success response
             return (new CitizenResource($citizen))
@@ -79,5 +90,46 @@ class CitizenController extends Controller
                 ]
             ], 500));
         }
+    }
+
+    public function show($id): CitizenResource
+    {
+        $citizen = Citizen::findOrFail($id);
+
+        if (!$citizen) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    'message' => 'Citizen not found.'
+                ]
+            ], 404));
+        }
+
+        return new CitizenResource($citizen);
+    }
+
+    public function update(int $id, CitizenUpdateRequest $request): CitizenResource
+    {
+        // Find the citizen by ID or fail (throws a 404 if not found)
+        $citizen = Citizen::findOrFail($id);
+
+        // Get the validated data from the request
+        $data = $request->validated();
+
+        // Handle file uploads for 'foto_ktp' and 'foto_kk'
+        if ($request->hasFile('foto_ktp')) {
+            // Store the file and update the path
+            $data['foto_ktp'] = $request->file('foto_ktp')->store('uploads/foto_ktp', 'public');
+        }
+
+        if ($request->hasFile('foto_kk')) {
+            // Store the file and update the path
+            $data['foto_kk'] = $request->file('foto_kk')->store('uploads/foto_kk', 'public');
+        }
+
+        $citizen->fill($data); // Fill with validated data
+        $citizen->save(); // Save changes
+
+        // Return the updated citizen resource
+        return new CitizenResource($citizen);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Citizen;
 use Database\Seeders\CitizenSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\Log;
@@ -88,7 +89,6 @@ class CitizenTest extends TestCase
 
     public function testCreateCitizen()
     {
-
         $this->seed([UserSeeder::class]);
 
         $this->post('/api/citizens', [
@@ -133,5 +133,55 @@ class CitizenTest extends TestCase
                     'alasan' => 'alasan'
                 ]
             ]);
+    }
+
+    public function testUpdateCitizen()
+    {
+        $this->seed([CitizenSeeder::class, UserSeeder::class]);
+
+        $citizen = Citizen::query()->limit(1)->first();
+
+        $this->put('/api/citizens/' . $citizen->id, [
+            'nama' => 'Test 2',
+            'nik' => 350518031100288,
+            'no_kk' => 350518031100288,
+            'foto_ktp' => 'xShuSSHGFOZNcijsa.png',
+            'foto_kk' => 'xShuSSHGFOZNcij3a.png',
+            'umur' => 22,
+            'jenis_kelamin' => 'Laki-laki',
+            'provinsi' => 'Jawa Barat',
+            'kab_kota' => 'Bandung',
+            'kecamatan' => 'Cikeas',
+            'kelurahan' => 'Sukamaju',
+            'alamat' => 'test',
+            'rt' => '003',
+            'rw' => '001',
+            'b_penghasilan' => 1243988,
+            's_penghasilan' => 1186388,
+            'alasan' => 'alasan'
+        ], [
+            'Authorization' => 'Bearer test'
+        ])->assertStatus(200)
+        ->assertJson([
+            'data' => [
+                'nama' => 'Test 2',
+                'nik' => 350518031100288,
+                'no_kk' => 350518031100288,
+                'foto_ktp' => 'xShuSSHGFOZNcijsa.png',
+                'foto_kk' => 'xShuSSHGFOZNcij3a.png',
+                'umur' => 22,
+                'jenis_kelamin' => 'Laki-laki',
+                'provinsi' => 'Jawa Barat',
+                'kab_kota' => 'Bandung',
+                'kecamatan' => 'Cikeas',
+                'kelurahan' => 'Sukamaju',
+                'alamat' => 'test',
+                'rt' => '003',
+                'rw' => '001',
+                'b_penghasilan' => 1243988,
+                's_penghasilan' => 1186388,
+                'alasan' => 'alasan'
+            ]
+        ]);
     }
 }

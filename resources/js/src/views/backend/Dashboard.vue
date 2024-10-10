@@ -1,9 +1,21 @@
 <template>
     <div class="container px-4 min-h-screen mt-14 py-12 w-full">
         <!-- User Info -->
-        <h1 class="text-2xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-1 text-blue-700">Dashboard</h1>
-        <p class="text-xl font-bold mb-1 text-blue-700 break-words">{{ user?.name }}</p>
-        <p class="text-md font-bold mb-1 text-blue-700 break-words">{{ user?.email }}</p>
+        <div class="flex w-full justify-between items-end">
+            <div>
+                <h1 class="text-2xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-1 text-blue-700">Dashboard</h1>
+                <p class="text-xl font-bold mb-1 text-blue-700 break-words">{{ user?.name }}</p>
+                <p class="text-md font-bold mb-1 text-blue-700 break-words">{{ user?.email }}</p>
+            </div>
+            <div
+                class="text-gray-700 hover:text-blue-700 hover:font-bold hover:bg-gray-100 md:hover:bg-transparent rounded-md">
+                <router-link class="font-bold tracking-wider pl-3 md:pl-0 py-1 md:py-0" to="/tambah-data">
+                    <fwb-button class="rounded-md px-8">
+                        Tambah Data
+                    </fwb-button>
+                </router-link>
+            </div>
+        </div>
 
         <!-- Search Form -->
         <div class="my-4">
@@ -24,40 +36,51 @@
                 <!-- Table Head Cells -->
                 <fwb-table-head-cell>No.</fwb-table-head-cell>
                 <fwb-table-head-cell>Nama Lengkap</fwb-table-head-cell>
+                <fwb-table-head-cell></fwb-table-head-cell>
+                <fwb-table-head-cell></fwb-table-head-cell>
                 <fwb-table-head-cell>NIK</fwb-table-head-cell>
                 <fwb-table-head-cell>No.KK</fwb-table-head-cell>
                 <fwb-table-head-cell>Usia</fwb-table-head-cell>
                 <fwb-table-head-cell>Jenis Kelamin</fwb-table-head-cell>
                 <fwb-table-head-cell>Provinsi</fwb-table-head-cell>
-                <fwb-table-head-cell>Kab / Kota</fwb-table-head-cell>
+                <fwb-table-head-cell class="whitespace-pre">Kab / Kota</fwb-table-head-cell>
                 <fwb-table-head-cell>Kecamatan</fwb-table-head-cell>
                 <fwb-table-head-cell>Kelurahan</fwb-table-head-cell>
                 <fwb-table-head-cell>Alamat</fwb-table-head-cell>
-                <fwb-table-head-cell>RT / RW</fwb-table-head-cell>
+                <fwb-table-head-cell></fwb-table-head-cell>
+                <fwb-table-head-cell></fwb-table-head-cell>
+                <fwb-table-head-cell class="whitespace-pre">RT / RW</fwb-table-head-cell>
                 <fwb-table-head-cell>Penghasilan Sebelum Pandemi</fwb-table-head-cell>
                 <fwb-table-head-cell>Penghasilan Setelah Pandemi</fwb-table-head-cell>
                 <fwb-table-head-cell>Action</fwb-table-head-cell>
             </fwb-table-head>
             <fwb-table-body>
                 <!-- Table Rows -->
-                <fwb-table-row v-for="(citizen, index) in citizens" :key="citizen.id">
+                <fwb-table-row v-if="citizens.length > 0" v-for="(citizen, index) in citizens" :key="citizen.id">
                     <fwb-table-cell>{{ (pagination.current_page - 1) * pageSize + index + 1 }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.nama }}</fwb-table-cell>
+                    <fwb-table-cell colspan="3">{{ citizen.nama }}</fwb-table-cell>
                     <fwb-table-cell>{{ citizen.nik }}</fwb-table-cell>
                     <fwb-table-cell>{{ citizen.no_kk }}</fwb-table-cell>
                     <fwb-table-cell>{{ citizen.umur }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.jenis_kelamin }}</fwb-table-cell>
-                    <fwb-table-cell class="whitespace-nowrap">{{ citizen.provinsi }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.kab_kota }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.kecamatan }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.kelurahan }}</fwb-table-cell>
-                    <fwb-table-cell>{{ citizen.alamat }}</fwb-table-cell>
-                    <fwb-table-cell class="whitespace-nowrap">{{ citizen.rt }} / {{ citizen.rw }}</fwb-table-cell>
+                    <fwb-table-cell class="whitespace-pre">{{ citizen.jenis_kelamin }}</fwb-table-cell>
+                    <fwb-table-cell class="whitespace-pre">{{ citizen.provinsi }}</fwb-table-cell>
+                    <fwb-table-cell class="whitespace-pre">{{ citizen.kab_kota }}</fwb-table-cell>
+                    <fwb-table-cell class="whitespace-pre">{{ citizen.kecamatan }}</fwb-table-cell>
+                    <fwb-table-cell class="whitespace-pre">{{ citizen.kelurahan }}</fwb-table-cell>
+                    <fwb-table-cell colspan="3">{{ citizen.alamat }}</fwb-table-cell>
+                    <fwb-table-cell class="whitespace-pre">{{ citizen.rt }} / {{ citizen.rw }}</fwb-table-cell>
                     <fwb-table-cell>{{ citizen.b_penghasilan }}</fwb-table-cell>
                     <fwb-table-cell>{{ citizen.s_penghasilan }}</fwb-table-cell>
                     <fwb-table-cell>
-                        <fwb-a href="#">Edit</fwb-a>
+                        <fwb-a :href="`/edit-data/${citizen.id}`">Edit</fwb-a>
                     </fwb-table-cell>
+                </fwb-table-row>
+                <fwb-table-row v-else>
+                    <td :colspan="19" class="text-center py-12 w-full">
+                        <span>
+                            No data available
+                        </span>
+                    </td>
                 </fwb-table-row>
             </fwb-table-body>
         </fwb-table>
@@ -73,6 +96,7 @@ import { ref, onMounted } from 'vue';
 import { debounce } from 'lodash';
 import {
     FwbA,
+    FwbButton,
     FwbTable,
     FwbTableBody,
     FwbTableCell,

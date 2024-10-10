@@ -17,8 +17,8 @@
                     <router-link to="/laporan-kegiatan">Laporan Kegiatan</router-link>
                 </fwb-footer-link>
             </fwb-footer-link-group>
-            <fwb-footer-copyright by=" LPM Jawa Barat " class="text-slate-100 flex md:justify-end justify-center"
-                href="/" copyright-message=" All Rights Reserved." />
+            <fwb-footer-copyright by="&nbsp;LPM Jawa Barat " class="text-slate-100 flex md:justify-end justify-center"
+                href="/" copyright-message="&nbsp;All Rights Reserved." />
         </div>
     </fwb-footer>
 </template>

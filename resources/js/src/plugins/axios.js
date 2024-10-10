@@ -1,8 +1,8 @@
 import axios from "axios";
 
+axios.defaults.baseURL = '/api';
 // Create a new Axios instance
 const instance = axios.create({
-    baseURL: '/api', // Set the base URL for the instance
     withCredentials: true, // Send cookies with requests if needed
     headers: {
         'Content-Type': 'application/json',

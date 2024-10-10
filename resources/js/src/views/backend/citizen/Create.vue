@@ -1,56 +1,62 @@
 <template>
     <!-- citizen form crate -->
     <section class="container px-4 min-h-screen mt-14 py-12 w-full">
-        <div class="w-full md:w-5/6 xl:w-10/12 border border-slate-200 bg-slate-50 h-auto flex mx-auto rounded-md">
+        <div class="w-full md:w-5/6 xl:w-10/12 border border-slate-200 bg-white h-auto flex mx-auto rounded-md">
             <div class="w-full p-8 mx-auto">
                 <h1 class="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold mb-12 text-center text-blue-700">
                     Tambah Data Baru
                 </h1>
-                <form submit.prevent="createCitizen">
+                <form @submit.prevent="submitCitizen">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-slate-500 text-start" for="nama">Nama
                                     Lengkap</label>
-                                <input v-model="nama" type="text" id="nama"
+                                <input v-model="citizen.nama" type="text" id="nama"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-                                    placeholder="John Doe" required />
+                                    placeholder="Masukkan Nama Lengkap" required />
+                                <p v-if="errors.nama" class="mt-2 text-sm text-red-600">{{ errors.nama[0] }}</p>
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-slate-500 text-start" for="nik">NIK</label>
-                                <input v-model="nik" type="number" id="nik"
+                                <input v-model="citizen.nik" type="number" id="nik"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                     placeholder="Masukkan Nomor KTP" required />
+                                <p v-if="errors.nik" class="mt-2 text-sm text-red-600">{{ errors.nik[0] }}</p>
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-slate-500 text-start" for="email">No. Kartu
                                     Keluarga</label>
-                                <input v-model="no_kk" type="number" id="no_kk"
+                                <input v-model="citizen.no_kk" type="number" id="no_kk"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                     placeholder="Masukkan Nomor Kartu Keluarga" required />
+                                <p v-if="errors.no_kk" class="mt-2 text-sm text-red-600">{{ errors.no_kk[0] }}</p>
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-slate-500 text-start"
                                     for="umur">Umur</label>
-                                <input v-model="umur" type="number" id="umur"
+                                <input v-model="citizen.umur" type="number" id="umur"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-                                    placeholder="27" required />
+                                    placeholder="Umur" required />
+                                <p v-if="errors.umur" class="mt-2 text-sm text-red-600">{{ errors.umur[0] }}</p>
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-slate-500 text-start" for="jenis_kelamin">
                                     Jenis Kelamin
                                 </label>
-                                <select v-model="jenis_kelamin" id="jenis_kelamin"
+                                <select v-model="citizen.jenis_kelamin" id="jenis_kelamin"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                     required>
                                     <option value="" selected disabled>Pilih jenis kelamin</option>
                                     <option value="Laki-laki">Laki-laki</option>
                                     <option value="Perempuan">Perempuan</option>
                                 </select>
+                                <p v-if="errors.jenis_kelamin" class="mt-2 text-sm text-red-600">{{
+                                    errors.jenis_kelamin[0] }}</p>
                             </div>
 
                             <div class="mb-4">
@@ -60,62 +66,87 @@
                                 <select v-model="selectedProvince" id="province" @change="fetchRegencies"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                     required>
-                                    <option v-for="province in provinces" :key="province.id" :value="province.name">
+                                    <option v-for="province in provinces" :key="province.id" :value="province.id">
                                         {{ province.name }}
                                     </option>
                                 </select>
+                                <p v-if="errors.provinsi" class="mt-2 text-sm text-red-600">{{ errors.provinsi[0] }}</p>
                             </div>
 
                             <div class="mb-4" v-if="regencies.length > 0">
                                 <label class="block text-sm font-medium text-slate-500 text-start" for="regency">
                                     Kab / Kota
                                 </label>
-                                <select v-model="selectedRegency" id="kab_kota"
-                                    class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-                                    required>
-                                    <option v-for="regency in regencies" :key="regency.id" :value="regency.name">
+                                <select v-model="selectedRegency" id="kab_kota" @change="fetchDistrict" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm
+                                    focus:outline-none focus:ring focus:border-blue-300" required>
+                                    <option v-for="regency in regencies" :key="regency.id" :value="regency.id">
                                         {{ regency.name }}
                                     </option>
                                 </select>
+                                <p v-if="errors.kab_kota" class="mt-2 text-sm text-red-600">{{ errors.kab_kota[0] }}</p>
                             </div>
 
-                            <div class="mb-4">
+                            <div class="mb-4" v-if="districts.length > 0">
+                                <label class="block text-sm font-medium text-slate-500 text-start" for="kecamatan">
+                                    Kecamatan
+                                </label>
+                                <select v-model="selectedDistrict" id="kecamatan" @change="fetchVillage"
+                                    class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+                                    required>
+                                    <option v-for="district in districts" :key="district.id" :value="district.id">
+                                        {{ district.name }}
+                                    </option>
+                                </select>
+                                <p v-if="errors.kecamatan" class="mt-2 text-sm text-red-600">{{ errors.kecamatan[0] }}
+                                </p>
+                            </div>
+
+                            <div class="mb-4" v-if="villages.length > 0">
+                                <!-- Use villages.length to conditionally show the dropdown -->
                                 <label class="block text-sm font-medium text-slate-500 text-start" for="kelurahan">
                                     Kelurahan
                                 </label>
-                                <select v-model="kelurahan" id="kelurahan"
+                                <select v-model="selectedVillage" id="kelurahan"
+                                    @change="selectVillage(selectedVillage)"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                     required>
-                                    <option value="" selected disabled>Pilih Kelurahan</option>
-                                    <option value="Laki-laki">Laki-laki</option>
-                                    <option value="Perempuan">Perempuan</option>
+                                    <option v-for="village in villages" :key="village.id" :value="village.id">
+                                        {{ village.name }}
+                                    </option>
                                 </select>
+                                <p v-if="errors.kelurahan" class="mt-2 text-sm text-red-600">{{ errors.kelurahan[0] }}
+                                </p>
                             </div>
 
                             <div class="flex justify-between gap-4 w-full">
                                 <div class="mb-4 w-full">
                                     <label class="block text-sm font-medium text-slate-500 text-start"
                                         for="rt">RT</label>
-                                    <input v-model="rt" type="number" id="rt"
+                                    <input v-model="citizen.rt" type="number" id="rt"
                                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                         placeholder="001" required />
+                                    <p v-if="errors.rt" class="mt-2 text-sm text-red-600">{{ errors.rt[0] }}
+                                    </p>
                                 </div>
 
                                 <div class="mb-4 w-full">
                                     <label class="block text-sm font-medium text-slate-500 text-start"
                                         for="rw">RW</label>
-                                    <input v-model="rw" type="number" id="rw"
+                                    <input v-model="citizen.rw" type="number" id="rw"
                                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                         placeholder="001" required />
+                                    <p v-if="errors.rw" class="mt-2 text-sm text-red-600">{{ errors.rw[0] }}
+                                    </p>
                                 </div>
                             </div>
 
                             <div class="mb-4">
                                 <label for="alamat"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
-                                <textarea v-model="alamat" id="alamat" rows="5"
+                                <textarea v-model="citizen.alamat" id="alamat" rows="5"
                                     class="mt-1 p-2 block w-full border bg-white border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                     placeholder="Masukkan alamat"></textarea>
+                                <p v-if="errors.alamat" class="mt-2 text-sm text-red-600">{{ errors.alamat[0] }}</p>
                             </div>
                         </div>
 
@@ -123,26 +154,32 @@
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-slate-500 text-start"
                                     for="b_penghasilan">Penghasilan Sebelum Pandemi</label>
-                                <input v-model="b_penghasilan" type="number" id="b_penghasilan"
+                                <input v-model="citizen.b_penghasilan" type="number" id="b_penghasilan"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                     placeholder="Masukkan penghasilan sebelum pandemi" required />
+                                <p v-if="errors.b_penghasilan" class="mt-2 text-sm text-red-600">{{
+                                    errors.b_penghasilan[0] }}</p>
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-slate-500 text-start"
                                     for="s_penghasilan">Penghasilan Setelah Pandemi</label>
-                                <input v-model="s_penghasilan" type="number" id="s_penghasilan"
+                                <input v-model="citizen.s_penghasilan" type="number" id="s_penghasilan"
                                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                                     placeholder="Masukkan penghasilan sesudah pandemi" required />
+                                <p v-if="errors.s_penghasilan" class="mt-2 text-sm text-red-600">{{
+                                    errors.s_penghasilan[0] }}</p>
                             </div>
 
+                            <!-- File Uploads -->
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-slate-500 text-start" for="foto_ktp">
                                     Foto KTP
                                 </label>
                                 <input type="file" id="foto_ktp"
                                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-                                    @change="onFileChange" />
+                                    @change="onFileChange($event, 'ktp')" />
+                                <p v-if="errors.foto_ktp" class="mt-2 text-sm text-red-600">{{ errors.foto_ktp[0] }}</p>
                             </div>
 
                             <div class="mb-4">
@@ -151,7 +188,17 @@
                                 </label>
                                 <input type="file" id="foto_kk"
                                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-                                    @change="onFileChange" />
+                                    @change="onFileChange($event, 'kk')" />
+                                <p v-if="errors.foto_kk" class="mt-2 text-sm text-red-600">{{ errors.foto_kk[0] }}</p>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="alasan"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alasan</label>
+                                <textarea v-model="citizen.alasan" id="alasan" rows="5"
+                                    class="mt-1 p-2 block w-full border bg-white border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+                                    placeholder="Masukkan alasan"></textarea>
+                                <p v-if="errors.alasan" class="mt-2 text-sm text-red-600">{{ errors.alasan[0] }}</p>
                             </div>
                         </div>
                     </div>
@@ -179,14 +226,32 @@ export default {
         return {
             provinces: [],
             regencies: [],
+            districts: [],
+            villages: [],
             selectedProvince: '',
             selectedRegency: '',
+            selectedDistrict: '',
+            selectedVillage: '',
             citizen: {
                 nama: '',
                 nik: '',
+                no_kk: '',
                 umur: '',
-                provinsi: '' // Holds the province to be posted
-            }
+                jenis_kelamin: '',
+                provinsi: '',
+                kab_kota: '',
+                kecamatan: '',
+                kelurahan: '',
+                rt: '',
+                rw: '',
+                alamat: '',
+                b_penghasilan: '',
+                s_penghasilan: '',
+                alasan: ''
+            },
+            ktpFile: null,
+            kkFile: null,
+            errors: {}
         };
     },
     mounted() {
@@ -208,32 +273,115 @@ export default {
         async fetchRegencies() {
             try {
                 const provinceId = this.selectedProvince; // Get the selected province id
+
                 const response = await axios.get(
                     `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`
                 );
                 this.regencies = response.data;
+
+                // Set the province name in the citizen object
+                const selectedProvince = this.provinces.find(province => province.id === provinceId);
+                if (selectedProvince) {
+                    this.citizen.provinsi = selectedProvince.name;
+                }
             } catch (error) {
                 console.error('Error fetching regencies:', error);
+            }
+        },
+        // Fetch district based on the selected regencies id
+        async fetchDistrict() {
+            try {
+                const regencyId = this.selectedRegency; // Get the selected regency id
+
+                const response = await axios.get(
+                    `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${regencyId}.json` // Update endpoint as needed
+                );
+                this.districts = response.data; // Store the fetched districts
+
+                // Set the regency name in the citizen object
+                const selectedRegency = this.regencies.find(regency => regency.id === regencyId);
+                if (selectedRegency) {
+                    this.citizen.kab_kota = selectedRegency.name;
+                }
+            } catch (error) {
+                console.error('Error fetching districts:', error);
+            }
+        },
+        // Fetch villages based on the selected district id
+        async fetchVillage() {
+            try {
+                const districtId = this.selectedDistrict; // Get the selected regency id
+
+                const response = await axios.get(
+                    `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${districtId}.json` // Update endpoint as needed
+                );
+                this.villages = response.data; // Store the fetched districts
+
+                // Set the district name in the citizen object
+                const selectedDistrict = this.districts.find(district => district.id === districtId);
+                if (selectedDistrict) {
+                    this.citizen.kecamatan = selectedDistrict.name;
+                }
+            } catch (error) {
+                console.error('Error fetching districts:', error);
+            }
+        },
+
+        // Method to handle the selection of a village
+        selectVillage(villageId) {
+            const selectedVillage = this.villages.find(village => village.id === villageId);
+            if (selectedVillage) {
+                this.citizen.kelurahan = selectedVillage.name; // Store the village name in the citizen object
+            }
+        },
+
+        onFileChange(event, type) {
+            const file = event.target.files[0]; // Get the selected file
+            if (file) {
+                // Store the file based on type and update citizen object
+                if (type === 'ktp') {
+                    this.ktpFile = file;
+                    this.citizen.foto_ktp = file; // Update citizen object
+                } else if (type === 'kk') {
+                    this.kkFile = file;
+                    this.citizen.foto_kk = file; // Update citizen object
+                }
             }
         },
         // Submit the citizen data to your Laravel API
         async submitCitizen() {
             try {
-                // Update the citizen's province before submission
-                this.citizen.provinsi = this.selectedProvince;
+                const formData = new FormData();
+
+                Object.keys(this.citizen).forEach(key => {
+                    formData.append(key, this.citizen[key]);
+                });
+                // Append the files
+                if (this.ktpFile) {
+                    formData.append('foto_ktp', this.ktpFile);
+                }
+                if (this.kkFile) {
+                    formData.append('foto_kk', this.kkFile);
+                }
 
                 // Send the citizen data to the backend
-                const response = await axios.post('/citizens', this.citizen, {
+                const response = await axios.post('/citizens', formData, {
                     headers: {
-                        Authorization: `Bearer YOUR_AUTH_TOKEN` // Replace with actual token if needed
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
                     }
                 });
 
                 if (response.status === 201) {
-                    alert('Citizen data saved successfully');
+                    this.$router.push('/dashboard');
+                    this.errors = {};
                 }
             } catch (error) {
-                console.error('Error posting citizen data:', error);
+                if (error.response && error.response.status === 400) {
+                    this.errors = error.response.data.errors;
+                } else {
+                    console.error('Error posting citizen data:', error);
+                }
             }
         }
     }

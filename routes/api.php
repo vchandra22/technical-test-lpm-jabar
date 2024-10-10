@@ -29,21 +29,7 @@ Route::middleware(\App\Http\Middleware\ApiAuthMiddleware::class)->group(function
     Route::delete('/users/logout', [UserController::class, 'logout']);
 
     Route::get('/citizens', [CitizenController::class, 'search']);
+    Route::get('/citizens/{id}', [CitizenController::class, 'show']);
+    Route::put('/citizens/{id}', [CitizenController::class, 'update']);
     Route::post('/citizens', [CitizenController::class, 'store']);
-});
-
-Route::get('/provinces', function () {
-    $response = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
-
-    return $response->json();
-});
-Route::get('/regencies', function () {
-    $response = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/regencies.json');
-
-    return $response->json();
-});
-Route::get('/districts', function () {
-    $response = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/districts.json');
-
-    return $response->json();
 });

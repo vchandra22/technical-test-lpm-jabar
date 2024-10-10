@@ -55,6 +55,14 @@ const routes = [
             requiresAuth: true
         }
     },
+    {
+    path: '/edit-data/:id', // The :id is a route parameter for the citizen's ID
+    component: () => import('../views/backend/citizen/Edit.vue'), // Import your Edit component
+    meta: {
+        title: 'Edit Data',
+        requiresAuth: true
+    }
+}
 ];
 
 const router = createRouter({

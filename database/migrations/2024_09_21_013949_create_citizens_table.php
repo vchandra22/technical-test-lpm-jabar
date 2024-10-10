@@ -13,23 +13,23 @@ return new class extends Migration
     {
         Schema::create('citizens', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->nullable(false);
-            $table->string('nik')->nullable(false)->unique('unique_nik_index');
-            $table->string('no_kk')->nullable(false)->unique('unique_no_kk_index');
-            $table->string('foto_ktp')->nullable(false);
-            $table->string('foto_kk')->nullable(false);
-            $table->integer('umur')->nullable(false);
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable(false);
-            $table->string('provinsi')->nullable(false);
-            $table->string('kab_kota')->nullable(false);
-            $table->string('kecamatan')->nullable(false);
-            $table->string('kelurahan')->nullable(false);
-            $table->string('alamat')->nullable(false);
-            $table->integer('rt')->nullable(false);
-            $table->integer('rw')->nullable(false);
-            $table->integer('b_penghasilan')->nullable(false);
-            $table->integer('s_penghasilan')->nullable(false);
-            $table->text('alasan')->nullable(false);
+            $table->string('nama')->nullable();
+            $table->string('nik')->nullable()->unique('unique_nik_index');
+            $table->string('no_kk')->nullable();
+            $table->string('foto_ktp')->nullable();
+            $table->string('foto_kk')->nullable();
+            $table->integer('umur')->nullable();
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable();
+            $table->string('provinsi')->nullable();
+            $table->string('kab_kota')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('kelurahan')->nullable();
+            $table->string('alamat')->nullable();
+            $table->integer('rt')->nullable();
+            $table->integer('rw')->nullable();
+            $table->integer('b_penghasilan')->nullable();
+            $table->integer('s_penghasilan')->nullable();
+            $table->text('alasan')->nullable();
             $table->timestamps();
         });
     }

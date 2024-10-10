@@ -26,7 +26,7 @@ class CitizenCreateRequest extends FormRequest
         return [
             'nama' => ['required', 'string', 'max:255'],
             'nik' => ['required', 'unique:citizens,nik'],
-            'no_kk' => ['required', 'unique:citizens,no_kk'],
+            'no_kk' => ['required'],
             'foto_ktp' => ['required'], // Assuming it's a URL or file path
             'foto_kk' => ['required'],  // Assuming it's a URL or file path
             'umur' => ['required', 'integer'],    // Age must be an integer
@@ -40,7 +40,7 @@ class CitizenCreateRequest extends FormRequest
             'rw' => ['required'],
             'b_penghasilan' => ['required'],
             's_penghasilan' => ['required'],
-            'alasan' => ['required', 'string'], // Assuming this is a text field
+            'alasan' => ['nullable', 'string'], // Assuming this is a text field
         ];
     }
 

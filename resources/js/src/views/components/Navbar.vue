@@ -61,7 +61,6 @@ import {
     FwbNavbar,
     FwbNavbarCollapse,
     FwbNavbarLink,
-    FwbNavbarLogo,
 } from 'flowbite-vue';
 
 const authStore = useAuthStore(); // Access the auth store
